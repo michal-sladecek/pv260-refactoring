@@ -11,6 +11,15 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 
 	private Stack<Evaluable> stack = new Stack<>();
 
+	private boolean isNumeric(String token){
+		try {
+			int value = Integer.parseInt(token);
+		} catch(NumberFormatException e){
+			return false;
+		}
+		return true;
+	}
+
 	@Override
 	public RPNEquationBuilder push(String token) {
 		try {

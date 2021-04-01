@@ -13,11 +13,11 @@ public class SymbolNode implements Evaluable {
         return left != null;
     }
 
-    public void setLeft(SymbolNode left) {
+    public void setLeft(Evaluable left) {
         this.left = left;
     }
 
-    public void setRight(SymbolNode right) {
+    public void setRight(Evaluable right) {
         this.right = right;
     }
 
