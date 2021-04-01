@@ -1,0 +1,13 @@
+practicalrefactorings\reportprinter\Person.class
+practicalrefactorings\equationsolver\Evaluable.class
+practicalrefactorings\equationsolver\Node.class
+practicalrefactorings\floodfill\Grid.class
+practicalrefactorings\equationsolver\RPNEquationBuilder.class
+practicalrefactorings\floodfill\ArrayBackedGrid.class
+practicalrefactorings\reportprinter\InventoryItem.class
+practicalrefactorings\equationsolver\OnTheFlyRPNEquationBuilder.class
+practicalrefactorings\floodfill\Floodfill.class
+practicalrefactorings\reportprinter\MyCompanyPrinter.class
+practicalrefactorings\reportprinter\Printer.class
+practicalrefactorings\reportprinter\Printable.class
+practicalrefactorings\floodfill\Position.class
