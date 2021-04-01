@@ -22,11 +22,10 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 
 	@Override
 	public RPNEquationBuilder push(String token) {
-		try {
-			int value = Integer.parseInt(token);
+		if (isNumeric(token)) {
 			NumberNode number = new NumberNode(value);
-			stack.push(number);
-		} catch (NumberFormatException e) {
+			stack.push(operator);
+		} else {
 			if (token.length() == 1) {
 				SymbolNode operator = new SymbolNode(token.charAt(0));
 				if (stack.isEmpty()) {
@@ -44,7 +43,6 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 				throw new IllegalArgumentException("Dont understand token: " + token);
 			}
 		}
-
 		return this;
 	}
 
