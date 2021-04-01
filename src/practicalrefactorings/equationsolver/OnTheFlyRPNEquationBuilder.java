@@ -39,20 +39,21 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 	private void handleSymbol(String token) {
 		if (token.length() == 1) {
 			SymbolNode operator = new SymbolNode(token.charAt(0));
-			if (stack.isEmpty()) {
-				throw new IllegalStateException("Nothing left on the stack for operand");
-			}
-			Evaluable right = stack.pop();
-			if (stack.isEmpty()) {
-				throw new IllegalStateException("Nothing left on the stack for operand");
-			}
-			Evaluable left = stack.pop();
+			Evaluable right = safePopFromStack();
+			Evaluable left = safePopFromStack();
 			operator.setLeft(left);
 			operator.setRight(right);
 			stack.push(operator);
 		} else {
 			throw new IllegalArgumentException("Dont understand token: " + token);
 		}
+	}
+
+	private Evaluable safePopFromStack() {
+		if (stack.isEmpty()) {
+			throw new IllegalStateException("Nothing left on the stack for operand");
+		}
+		return stack.pop();
 	}
 
 	@Override
