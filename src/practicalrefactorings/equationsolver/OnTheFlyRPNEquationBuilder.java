@@ -23,27 +23,36 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 	@Override
 	public RPNEquationBuilder push(String token) {
 		if (isNumeric(token)) {
-			NumberNode number = new NumberNode(value);
-			stack.push(operator);
+			handleNumber(token);
 		} else {
-			if (token.length() == 1) {
-				SymbolNode operator = new SymbolNode(token.charAt(0));
-				if (stack.isEmpty()) {
-					throw new IllegalStateException("Nothing left on the stack for operand");
-				}
-				Evaluable right = stack.pop();
-				if (stack.isEmpty()) {
-					throw new IllegalStateException("Nothing left on the stack for operand");
-				}
-				Evaluable left = stack.pop();
-				operator.setLeft(left);
-				operator.setRight(right);
-				stack.push(operator);
-			} else {
-				throw new IllegalArgumentException("Dont understand token: " + token);
-			}
+			handleSymbol(token);
 		}
 		return this;
+	}
+
+	private void handleNumber(String token) {
+		int value = Integer.parseInt(token);
+		NumberNode number = new NumberNode(value);
+		stack.push(number);
+	}
+
+	private void handleSymbol(String token) {
+		if (token.length() == 1) {
+			SymbolNode operator = new SymbolNode(token.charAt(0));
+			if (stack.isEmpty()) {
+				throw new IllegalStateException("Nothing left on the stack for operand");
+			}
+			Evaluable right = stack.pop();
+			if (stack.isEmpty()) {
+				throw new IllegalStateException("Nothing left on the stack for operand");
+			}
+			Evaluable left = stack.pop();
+			operator.setLeft(left);
+			operator.setRight(right);
+			stack.push(operator);
+		} else {
+			throw new IllegalArgumentException("Dont understand token: " + token);
+		}
 	}
 
 	@Override
