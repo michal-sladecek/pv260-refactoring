@@ -9,25 +9,25 @@ import java.util.Stack;
 
 public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 
-	private Stack<Node> stack = new Stack<>();
+	private Stack<Evaluable> stack = new Stack<>();
 
 	@Override
 	public RPNEquationBuilder push(String token) {
 		try {
 			int value = Integer.parseInt(token);
-			Node number = new Node(value);
+			NumberNode number = new NumberNode(value);
 			stack.push(number);
 		} catch (NumberFormatException e) {
 			if (token.length() == 1) {
-				Node operator = new Node(token.charAt(0));
+				SymbolNode operator = new SymbolNode(token.charAt(0));
 				if (stack.isEmpty()) {
 					throw new IllegalStateException("Nothing left on the stack for operand");
 				}
-				Node right = stack.pop();
+				Evaluable right = stack.pop();
 				if (stack.isEmpty()) {
 					throw new IllegalStateException("Nothing left on the stack for operand");
 				}
-				Node left = stack.pop();
+				Evaluable left = stack.pop();
 				operator.setLeft(left);
 				operator.setRight(right);
 				stack.push(operator);
