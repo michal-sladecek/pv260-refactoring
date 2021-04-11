@@ -33,20 +33,25 @@ public class Floodfill {
 			if (isValidIndex(at.x(),at.y(),original)) {
 				gridCopy.set(color, at.x(), at.y());
 				Collection<Position> neighbors = getNeighborPositions(at);
-				Collection<Position> uncoloredNeighbors = new ArrayList<>();
-				for (Position position : neighbors) {
-					if (isValidIndex(position.x(),position.y(),gridCopy)) {
-						Color colorAtPosition = gridCopy.get(position.x(), position.y());
-						if (colorAtPosition.equals(replacingColor)) {
-							uncoloredNeighbors.add(position);
-						}
-					}
-				}
+				Collection<Position> uncoloredNeighbors = getUncoloredNeighbors(gridCopy, replacingColor, neighbors);
 
 				left.addAll(uncoloredNeighbors);
 			}
 		}
 		return gridCopy;
+	}
+
+	private Collection<Position> getUncoloredNeighbors(Grid<Color> gridCopy, Color replacingColor, Collection<Position> neighbors) {
+		Collection<Position> uncoloredNeighbors = new ArrayList<>();
+		for (Position position : neighbors) {
+			if (isValidIndex(position.x(),position.y(), gridCopy)) {
+				Color colorAtPosition = gridCopy.get(position.x(), position.y());
+				if (colorAtPosition.equals(replacingColor)) {
+					uncoloredNeighbors.add(position);
+				}
+			}
+		}
+		return uncoloredNeighbors;
 	}
 
 	private Collection<Position> getNeighborPositions(Position at) {
