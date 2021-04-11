@@ -20,22 +20,18 @@ public class Floodfill {
 		if (!isValidIndex(startX, startY, original)) {
 			throw new IndexOutOfBoundsException("Got " + new Position(startX, startY) + " but grid is only " + original.width() + "x" + original.height());
 		}
-		Grid<Color> copy = new ArrayBackedGrid<>(original.width(), original.height());
-		for (int x = 0; x < original.width(); x++) {
-			for (int y = 0; y < original.height(); y++) {
-				copy.set(original.get(x, y), x, y);
-			}
-		}
+		Grid<Color> gridCopy = getColorGridCopy(original);
+
 		Queue<Position> left = new LinkedList<>();
 		left.add(new Position(startX, startY));
 		Color replacingColor = original.get(startX, startY);
 		if (replacingColor.equals(color)) {
-			return copy;
+			return gridCopy;
 		}
 		while (!left.isEmpty()) {
 			Position at = left.poll();
 			if (isValidIndex(at.x(),at.y(),original)) {
-				copy.set(color, at.x(), at.y());
+				gridCopy.set(color, at.x(), at.y());
 				Collection<Position> neighbors = asList(
 						new Position(at.x() + 1, at.y()),
 						new Position(at.x(), at.y() + 1),
@@ -44,8 +40,8 @@ public class Floodfill {
 				);
 				Collection<Position> uncoloredNeighbors = new ArrayList<>();
 				for (Position position : neighbors) {
-					if (position.x() >= 0 && position.x() < copy.width() && position.y() >= 0 && position.y() < copy.height()) {
-						Color colorAtPosition = copy.get(position.x(), position.y());
+					if (position.x() >= 0 && position.x() < gridCopy.width() && position.y() >= 0 && position.y() < gridCopy.height()) {
+						Color colorAtPosition = gridCopy.get(position.x(), position.y());
 						if (colorAtPosition.equals(replacingColor)) {
 							uncoloredNeighbors.add(position);
 						}
@@ -53,6 +49,16 @@ public class Floodfill {
 				}
 
 				left.addAll(uncoloredNeighbors);
+			}
+		}
+		return gridCopy;
+	}
+
+	private Grid<Color> getColorGridCopy(Grid<Color> original) {
+		Grid<Color> copy = new ArrayBackedGrid<>(original.width(), original.height());
+		for (int x = 0; x < original.width(); x++) {
+			for (int y = 0; y < original.height(); y++) {
+				copy.set(original.get(x, y), x, y);
 			}
 		}
 		return copy;
