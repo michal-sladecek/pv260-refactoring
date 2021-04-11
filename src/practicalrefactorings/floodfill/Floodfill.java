@@ -28,9 +28,14 @@ public class Floodfill {
 		if (replacingColor.equals(color)) {
 			return gridCopy;
 		}
+		fillGridCopy(original, color, gridCopy, left, replacingColor);
+		return gridCopy;
+	}
+
+	private void fillGridCopy(Grid<Color> original, Color color, Grid<Color> gridCopy, Queue<Position> left, Color replacingColor) {
 		while (!left.isEmpty()) {
 			Position at = left.poll();
-			if (isValidIndex(at.x(),at.y(),original)) {
+			if (isValidIndex(at.x(),at.y(), original)) {
 				gridCopy.set(color, at.x(), at.y());
 				Collection<Position> neighbors = getNeighborPositions(at);
 				Collection<Position> uncoloredNeighbors = getUncoloredNeighbors(gridCopy, replacingColor, neighbors);
@@ -38,7 +43,6 @@ public class Floodfill {
 				left.addAll(uncoloredNeighbors);
 			}
 		}
-		return gridCopy;
 	}
 
 	private Collection<Position> getUncoloredNeighbors(Grid<Color> gridCopy, Color replacingColor, Collection<Position> neighbors) {
