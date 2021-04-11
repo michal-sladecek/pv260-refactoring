@@ -35,7 +35,7 @@ public class Floodfill {
 				Collection<Position> neighbors = getNeighborPositions(at);
 				Collection<Position> uncoloredNeighbors = new ArrayList<>();
 				for (Position position : neighbors) {
-					if (position.x() >= 0 && position.x() < gridCopy.width() && position.y() >= 0 && position.y() < gridCopy.height()) {
+					if (isValidIndex(position.x(),position.y(),gridCopy)) {
 						Color colorAtPosition = gridCopy.get(position.x(), position.y());
 						if (colorAtPosition.equals(replacingColor)) {
 							uncoloredNeighbors.add(position);
