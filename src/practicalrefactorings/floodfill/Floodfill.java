@@ -22,12 +22,13 @@ public class Floodfill {
 		}
 		Grid<Color> gridCopy = getColorGridCopy(original);
 
-		Queue<Position> left = new LinkedList<>();
-		left.add(new Position(startX, startY));
 		Color replacingColor = original.get(startX, startY);
 		if (replacingColor.equals(color)) {
 			return gridCopy;
 		}
+
+		Queue<Position> left = new LinkedList<>();
+		left.add(new Position(startX, startY));
 		fillGridCopy(original, color, gridCopy, left, replacingColor);
 		return gridCopy;
 	}
